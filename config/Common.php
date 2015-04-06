@@ -9,6 +9,16 @@ class Common extends Config
     public function define(Container $di)
     {
         $di->set('aura/project-kernel:logger', $di->lazyNew('Monolog\Logger'));
+		$di->set('view', $di->lazyNew('Aura\View\View'));
+		$di->params['Aura\View\TemplateRegistry']['paths'] = array(
+			dirname(__DIR__) . '/src/App/Views',
+			dirname(__DIR__) . '/src/App/Layouts',
+		);
+		$di->params['App\Actions\GuessAction'] = array(
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			$di->lazyGet('view')
+	);
     }
 
     public function modify(Container $di)
@@ -55,6 +65,7 @@ class Common extends Config
 
         $router->add('hello', '/')
                ->setValues(array('action' => 'hello'));
+		$router->add('GuessAction', '/guess');
     }
 
     public function modifyWebDispatcher($di)
@@ -65,5 +76,10 @@ class Common extends Config
             $response = $di->get('aura/web-kernel:response');
             $response->content->set('Hello World!');
         });
+
+		$dispatcher->setObject(
+				   'GuessAction',
+					   $di->lazyNew('App\Actions\GuessAction')
+		);
     }
 }
