@@ -1,2 +1,5 @@
-<?php ?>
-<h1>Hi</h1>
+<?php
+echo '<pre>';
+print_r($this->match);
+echo '</pre>';
+?>

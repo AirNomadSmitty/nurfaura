@@ -8,8 +8,15 @@ class Common extends Config
 {
     public function define(Container $di)
     {
+		$config = include(dirname(__DIR__) . '/config/config.php');
         $di->set('aura/project-kernel:logger', $di->lazyNew('Monolog\Logger'));
 		$di->set('view', $di->lazyNew('Aura\View\View'));
+		$di->set('db', $di->lazyNew('Aura\sql\ExtendedPdo', ['dsn' => $config['db']['dsn'],
+							 'username'=> $config['db']['username'],
+							 'password'=> $config['db']['password']
+		]));
+		$di->types['Aura\Sql\ExtendedPdo'] = $di->lazyGet('db');
+		$this->setMappers($di);
 		$di->params['Aura\View\TemplateRegistry']['paths'] = array(
 			dirname(__DIR__) . '/src/App/Views',
 			dirname(__DIR__) . '/src/App/Layouts',
@@ -17,7 +24,9 @@ class Common extends Config
 		$di->params['App\Actions\GuessAction'] = array(
 			'request' => $di->lazyGet('aura/web-kernel:request'),
 			'response' => $di->lazyGet('aura/web-kernel:response'),
-			$di->lazyGet('view')
+			'view' => $di->lazyGet('view'),
+			'matchMapper'=> $di->lazyGet('MatchMapper'),
+			'apiKey'=>$config['apiKey']
 	);
     }
 
@@ -27,7 +36,7 @@ class Common extends Config
         $this->modifyCliDispatcher($di);
         $this->modifyWebRouter($di);
         $this->modifyWebDispatcher($di);
-    }
+	}
 
     protected function modifyLogger(Container $di)
     {
@@ -82,4 +91,8 @@ class Common extends Config
 					   $di->lazyNew('App\Actions\GuessAction')
 		);
     }
+
+	private function setMappers(Container $di){
+		$di->set('MatchMapper', $di->lazyNew('App\Mappers\MatchMapper'));
+	}
 }

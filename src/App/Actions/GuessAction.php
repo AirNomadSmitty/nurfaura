@@ -2,16 +2,33 @@
 
 namespace App\Actions;
 
-use Aura\Di\Container;
+use App\Objects\RiotApiObjects\RiotMatchDetail;
 use Aura\Web\Request;
 use Aura\Web\Response;
+use Aura\View\View;
+use App\Mappers\MatchMapper;
+use GuzzleHttp\Client;
 
-class GuessAction {
+class GuessAction extends BaseAction {
 
-	use BaseActionTrait;
+
+	protected $matchMapper;
+	protected $apiKey;
+
+	public function __construct(Request $request, Response $response, View $view, MatchMapper $matchMapper, $apiKey) {
+		parent::__construct($request, $response, $view);
+		$this->matchMapper = $matchMapper;
+		$this->apiKey = $apiKey;
+	}
 
 	public function __invoke() {
+		$client = new Client();
+		$match = $this->matchMapper->getRandom();
+		$res = $client->get('https://na.api.pvp.net/api/lol/na/v2.2/match/'.$match->getRiotMatchId().'?includeTimeline=true&api_key='.$this->apiKey);
+		$riotMatchObject = new RiotMatchDetail($res->json());
+
 		$this->view->setView('guess');
+		$this->view->setData( ['match'=>$riotMatchObject]);
 		$this->view->setLayout('default');
 		$this->response->content->set($this->view->__invoke());
 	}

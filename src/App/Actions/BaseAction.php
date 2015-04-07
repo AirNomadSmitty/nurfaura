@@ -6,7 +6,7 @@ use Aura\View\View;
 use Aura\Web\Request;
 use Aura\Web\Response;
 
-trait BaseActionTrait {
+class BaseAction {
 
 	protected $request;
 	protected $response;
