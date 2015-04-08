@@ -41,4 +41,3 @@ test: {{match.matchId}}
 
    
 </table>
-
