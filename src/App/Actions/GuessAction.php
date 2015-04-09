@@ -11,12 +11,13 @@ use GuzzleHttp\Client;
 
 class GuessAction extends BaseAction {
 
-
+	protected $view;
 	protected $matchMapper;
 	protected $apiKey;
 
 	public function __construct(Request $request, Response $response, View $view, MatchMapper $matchMapper, $apiKey) {
-		parent::__construct($request, $response, $view);
+		parent::__construct($request, $response);
+		$this->view = $view;
 		$this->matchMapper = $matchMapper;
 		$this->apiKey = $apiKey;
 	}

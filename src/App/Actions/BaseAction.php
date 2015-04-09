@@ -10,11 +10,9 @@ class BaseAction {
 
 	protected $request;
 	protected $response;
-	protected $view;
 
-	public function __construct(Request $request, Response $response, View $view) {
+	public function __construct(Request $request, Response $response) {
 		$this->request = $request;
 		$this->response = $response;
-		$this->view = $view;
 	}
 }

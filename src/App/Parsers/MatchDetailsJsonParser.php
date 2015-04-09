@@ -96,4 +96,14 @@ class MatchDetailsJsonParser {
 		}
 		return $teamGoldJson;
 	}
+
+	public function getWinningTeam(){
+		$winner = 0;
+		foreach($this->matchJson['teams'] as $teamJson){
+			if($teamJson['winner']==true){
+				$winner=$teamJson['teamId'];
+			}
+		}
+		return $winner;
+	}
 }

@@ -35,6 +35,14 @@ class MatchMapper {
 	}
 
 	/**
+	 * @param int $matchId
+	 * @param bool $correct
+	 * //TODO: this
+	 */
+	public function logGuess($matchId, $correct){
+	}
+
+	/**
 	 * Takes an array of data from the db and returns an array of match objects keyed by matchId
 	 *
 	 *

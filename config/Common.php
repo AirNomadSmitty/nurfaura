@@ -15,12 +15,23 @@ class Common extends Config
 							 'username'=> $config['db']['username'],
 							 'password'=> $config['db']['password']
 		]));
+
+		$di->set('phpFunc', $di->lazyNew('Aura\Session\Phpfunc'));
+		$di->set('sessionManager', $di->lazyNew('Aura\Session\Session', [
+			$di->lazyNew('Aura\Session\SegmentFactory'),
+			$di->lazyNew('Aura\Session\CsrfTokenFactory', [$di->lazyNew('Aura\Session\Randval')]),
+			$di->lazyGet('phpFunc'),
+			$_COOKIE,
+		]));
+
+		$di->types['Aura\Session\Phpfunc'] = $di->lazyGet('phpFunc');
 		$di->types['Aura\Sql\ExtendedPdo'] = $di->lazyGet('db');
 		$this->setMappers($di);
 		$di->params['Aura\View\TemplateRegistry']['paths'] = array(
 			dirname(__DIR__) . '/src/App/Views',
 			dirname(__DIR__) . '/src/App/Layouts',
 		);
+
 		$di->params['App\Actions\GuessAction'] = array(
 			'request' => $di->lazyGet('aura/web-kernel:request'),
 			'response' => $di->lazyGet('aura/web-kernel:response'),
@@ -28,12 +39,20 @@ class Common extends Config
 			'matchMapper'=> $di->lazyGet('MatchMapper'),
 			'apiKey'=>$config['apiKey']
 	);
+
 		$di->params['App\Actions\GetMatchAction'] = array(
 			'request' => $di->lazyGet('aura/web-kernel:request'),
 			'response' => $di->lazyGet('aura/web-kernel:response'),
 			'view' => $di->lazyGet('view'),
 			'matchMapper'=> $di->lazyGet('MatchMapper'),
 			'apiKey'=>$config['apiKey']
+		);
+
+		$di->params['App\Actions\MatchGuessAction'] = array (
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			'matchMapper'=> $di->lazyGet('MatchMapper'),
+			'sessionManager' =>$di->lazyGet('SessionManager')
 		);
     }
 
@@ -83,6 +102,8 @@ class Common extends Config
                ->setValues(array('action' => 'hello'));
 		$router->add('GuessAction', '/guess');
 		$router->add('GetMatchAction', '/getMatch');
+		$router->add('MatchGuessAction', '/matchGuess');
+
 
 	}
 
@@ -103,7 +124,11 @@ class Common extends Config
 				   'GetMatchAction',
 					   $di->lazyNew('App\Actions\GetMatchAction')
 		);
-    }
+		$dispatcher->setObject(
+				   'MatchGuessAction',
+					   $di->lazyNew('App\Actions\MatchGuessAction')
+		);
+	}
 
 	private function setMappers(Container $di){
 		$di->set('MatchMapper', $di->lazyNew('App\Mappers\MatchMapper'));

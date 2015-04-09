@@ -19,6 +19,7 @@
         "monolog/monolog": "~1.0",
 		"aura/sql"       : "~2.0",
 		"aura/view"      : "~2.0",
+		"aura/session"   : "~2.0",
 		"guzzlehttp/guzzle" : "~5.0"
 	},
     "autoload": {
