@@ -9,7 +9,7 @@ use Aura\View\View;
 use App\Mappers\MatchMapper;
 use GuzzleHttp\Client;
 
-class GuessAction extends BaseAction {
+class GetMatchAction extends BaseAction {
 
 
 	protected $matchMapper;
@@ -27,9 +27,6 @@ class GuessAction extends BaseAction {
 		$res = $client->get('https://na.api.pvp.net/api/lol/na/v2.2/match/'.$match->getRiotMatchId().'?includeTimeline=true&api_key='.$this->apiKey);
 		$parser = new MatchDetailsJsonParser($res->json());
 
-		$this->view->setView('guess');
-		$this->view->setData( ['match'=>$parser->getUsefulJson()]);
-		$this->view->setLayout('default');
-		$this->response->content->set($this->view->__invoke());
+		$this->response->content->set($parser->getUsefulJson());
 	}
 }

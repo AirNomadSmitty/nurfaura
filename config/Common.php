@@ -28,6 +28,13 @@ class Common extends Config
 			'matchMapper'=> $di->lazyGet('MatchMapper'),
 			'apiKey'=>$config['apiKey']
 	);
+		$di->params['App\Actions\GetMatchAction'] = array(
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			'view' => $di->lazyGet('view'),
+			'matchMapper'=> $di->lazyGet('MatchMapper'),
+			'apiKey'=>$config['apiKey']
+		);
     }
 
     public function modify(Container $di)
@@ -75,7 +82,9 @@ class Common extends Config
         $router->add('hello', '/')
                ->setValues(array('action' => 'hello'));
 		$router->add('GuessAction', '/guess');
-    }
+		$router->add('GetMatchAction', '/getMatch');
+
+	}
 
     public function modifyWebDispatcher($di)
     {
@@ -89,6 +98,10 @@ class Common extends Config
 		$dispatcher->setObject(
 				   'GuessAction',
 					   $di->lazyNew('App\Actions\GuessAction')
+		);
+		$dispatcher->setObject(
+				   'GetMatchAction',
+					   $di->lazyNew('App\Actions\GetMatchAction')
 		);
     }
 
