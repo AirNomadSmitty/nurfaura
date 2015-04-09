@@ -73,7 +73,7 @@ class MatchDetailsJsonParser {
 	protected function buildUsefulEventsJson(){
 		$timelineJson = [];
 		foreach($this->matchJson['timeline']['frames'] as $frame){
-			$timelineJson[$frame['timestamp']] = ['eventType'=> self::EVENT_GOLD_UPDATE, 'gold' => $this->buildTeamGoldJsonFromParticipantFrames($frame['participantFrames'])];
+			$timelineJson[$frame['timestamp']] = ['eventType'=> self::EVENT_GOLD_UPDATE, 'timestamp'=> $frame['timestamp'], 'gold' => $this->buildTeamGoldJsonFromParticipantFrames($frame['participantFrames'])];
 			if(isset($frame['events'])){
 				foreach($frame['events'] as $eventJson){
 					if($eventJson['eventType'] == self::EVENT_CHAMPION_KILL){
