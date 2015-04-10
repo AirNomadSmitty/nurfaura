@@ -86,5 +86,7 @@ app.controller('myCtrl', function($scope, $timeout) {
     }
     
     var timeline = randomTimeline();
-    setupTimers();    
+    setupTimers(); 
+    
+
 });
