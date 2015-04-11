@@ -2,6 +2,8 @@
 
 namespace App\Parsers;
 
+use App\Misc;
+
 /**
  * Class MatchDetailsJsonParser
  *
@@ -16,13 +18,20 @@ class MatchDetailsJsonParser {
 
 	const EVENT_CHAMPION_KILL = "CHAMPION_KILL";
 	const EVENT_GOLD_UPDATE = "GOLD_UPDATE";
+	const TOTAL_MATCH_REPLAY_TIME = 30000;
+	const TEAM_KEY_1 = 'blue';
+	const TEAM_KEY_2 = 'red';
 
 	protected $matchJson;
 	protected $participantTeamMap;
+	protected $teamIdKeyMap;
+	protected $gameLength;
 
 	public function __construct($matchJson){
 		$this->matchJson = $matchJson;
 		$this->participantTeamMap = $this->generateParticipantsByTeam();
+		$this->gameLength = $this->getGameLength();
+		$this->teamIdKeyMap = $this->getTeamIdKeyMap();
 	}
 
 	protected function generateParticipantsByTeam(){
@@ -31,6 +40,31 @@ class MatchDetailsJsonParser {
 			$participantTeamMap[$participantJson['participantId']] = $participantJson['teamId'];
 		}
 		return $participantTeamMap;
+	}
+
+	protected function getGameLength(){
+		$lastFrame = end($this->matchJson['timeline']['frames']);
+		return $lastFrame['timestamp'];
+	}
+
+	/**
+	 * Want to err on the side of caution incase rito switches up the ids they use
+	 *
+	 * @return array of format [teamId=>key]
+	 */
+	protected function getTeamIdKeyMap(){
+		$teamIdKeyMap = [];
+		$teamIdKeyMap[$this->matchJson['teams'][0]['teamId']] = self::TEAM_KEY_1;
+		$teamIdKeyMap[$this->matchJson['teams'][1]['teamId']] = self::TEAM_KEY_2;
+		return $teamIdKeyMap;
+	}
+
+	protected function normalizeTimestamp($timestamp){
+		return (int)(($timestamp / $this->gameLength) * self::TOTAL_MATCH_REPLAY_TIME);
+	}
+
+	protected function getKeyFromTeamId($teamId){
+		return $this->teamIdKeyMap[$teamId];
 	}
 
 	public function getUsefulJson(){
@@ -44,11 +78,11 @@ class MatchDetailsJsonParser {
 	protected function buildUsefulTeamsJson(){
 		$teamsJson = [];
 		foreach($this->matchJson['teams'] as $teamJson){
-			$id = $teamJson['teamId'];
-			$teamsJson[$id] = [
-				'teamId'=> $id,
+			$team= $this->getKeyFromTeamId($teamJson['teamId']);
+			$teamsJson[$team] = [
+				'team'=> $team,
 				'winner'=>$teamJson['winner'],
-				'participants'=>$this->buildUsefulParticipantsJsonFromTeamId($id)
+				'participants'=>$this->buildUsefulParticipantsJsonFromTeamId($teamJson['teamId'])
 			];
 		}
 		return $teamsJson;
@@ -61,7 +95,11 @@ class MatchDetailsJsonParser {
 				$id = $participantJson['participantId'];
 				$participantsJson[$id] = [
 					'participantId' => $id,
+					'currentKills' => 0,
+					'currentDeaths' => 0,
+					'currentAssists' => 0,
 					'championId' => $participantJson['championId'],
+					'championImg' => Misc::makeImgUrlFromId($participantJson['championId']),
 					'tier' => $participantJson['highestAchievedSeasonTier'],
 					'lane' => $participantJson['timeline']['lane']
 				];
@@ -73,14 +111,15 @@ class MatchDetailsJsonParser {
 	protected function buildUsefulEventsJson(){
 		$timelineJson = [];
 		foreach($this->matchJson['timeline']['frames'] as $frame){
-			$timelineJson[$frame['timestamp']] = ['eventType'=> self::EVENT_GOLD_UPDATE, 'timestamp'=> $frame['timestamp'], 'gold' => $this->buildTeamGoldJsonFromParticipantFrames($frame['participantFrames'])];
 			if(isset($frame['events'])){
 				foreach($frame['events'] as $eventJson){
 					if($eventJson['eventType'] == self::EVENT_CHAMPION_KILL){
-						$timelineJson[$eventJson['timestamp']] = $eventJson;
+						$eventJson['timestamp'] = $this->normalizeTimestamp($eventJson['timestamp']);
+						$timelineJson[] = $eventJson;
 					}
 				}
 			}
+			$timelineJson[] = ['eventType'=> self::EVENT_GOLD_UPDATE, 'timestamp'=> $this->normalizeTimestamp($frame['timestamp']), 'gold' => $this->buildTeamGoldJsonFromParticipantFrames($frame['participantFrames'])];
 		}
 		return $timelineJson;
 	}
@@ -88,11 +127,12 @@ class MatchDetailsJsonParser {
 	protected function buildTeamGoldJsonFromParticipantFrames($participantFrames){
 		$teams = array_values($this->participantTeamMap);
 		$teamGoldJson = [];
+		//Initialize just in case
 		foreach($teams as $teamId){
-			$teamGoldJson[$teamId] = 0;
+			$teamGoldJson[$this->getKeyFromTeamId($teamId)] = 0;
 		}
 		foreach($participantFrames as $frame){
-			$teamGoldJson[$this->participantTeamMap[$frame['participantId']]] += $frame['totalGold'];
+			$teamGoldJson[$this->getKeyFromTeamId($this->participantTeamMap[$frame['participantId']])] += $frame['totalGold'];
 		}
 		return $teamGoldJson;
 	}
@@ -101,7 +141,7 @@ class MatchDetailsJsonParser {
 		$winner = 0;
 		foreach($this->matchJson['teams'] as $teamJson){
 			if($teamJson['winner']==true){
-				$winner=$teamJson['teamId'];
+				$winner=$this->getKeyFromTeamId($teamJson['teamId']);
 			}
 		}
 		return $winner;
