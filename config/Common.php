@@ -32,6 +32,13 @@ class Common extends Config
 			dirname(__DIR__) . '/src/App/Layouts',
 		);
 
+		$di->params['App\Actions\IndexAction'] = array(
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			'view' => $di->lazyGet('view'),
+			'userScoreMapper'=> $di->lazyGet('UserScoreMapper')
+		);
+
 		$di->params['App\Actions\GuessAction'] = array(
 			'request' => $di->lazyGet('aura/web-kernel:request'),
 			'response' => $di->lazyGet('aura/web-kernel:response'),
@@ -98,8 +105,7 @@ class Common extends Config
     {
         $router = $di->get('aura/web-kernel:router');
 
-        $router->add('hello', '/')
-               ->setValues(array('action' => 'hello'));
+        $router->add('IndexAction', '/');
 		$router->add('GuessAction', '/guess');
 		$router->add('GetMatchAction', '/getMatch');
 		$router->add('MatchGuessAction', '/matchGuess');
@@ -111,10 +117,10 @@ class Common extends Config
     {
         $dispatcher = $di->get('aura/web-kernel:dispatcher');
 
-        $dispatcher->setObject('hello', function () use ($di) {
-            $response = $di->get('aura/web-kernel:response');
-            $response->content->set('Hello World!');
-        });
+		$dispatcher->setObject(
+				   'IndexAction',
+					   $di->lazyNew('App\Actions\IndexAction')
+		);
 
 		$dispatcher->setObject(
 				   'GuessAction',
@@ -132,5 +138,6 @@ class Common extends Config
 
 	private function setMappers(Container $di){
 		$di->set('MatchMapper', $di->lazyNew('App\Mappers\MatchMapper'));
+		$di->set('UserScoreMapper', $di->lazyNew('App\Mappers\UserScoreMapper'));
 	}
 }
