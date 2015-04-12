@@ -35,11 +35,16 @@ class MatchMapper {
 	}
 
 	/**
-	 * @param int $matchId
+	 * @param int $riotMatchId
 	 * @param bool $correct
-	 * //TODO: this
 	 */
-	public function logGuess($matchId, $correct){
+	public function logGuess($riotMatchId, $correct){
+		$sql = "Update matches set sumGuessed = sumGuessed + 1";
+		if($correct){
+			$sql.= ", set sumCorrect = sumCorrect + 1 ";
+		}
+		$sql.=" Where riotMatchId = :riotMatchId";
+		$this->db->perform($sql, ['riotMatchId'=>$riotMatchId]);
 	}
 
 	/**
