@@ -1,10 +1,13 @@
 var app = angular.module('myApp', ['ngResource', 'myApp.services']);
-app.controller('myCtrl', function($scope, $timeout, Match) {
-    $scope.firstName = "John";
-    $scope.lastName = "Doe";
-    var goldDifference = ['Gold Difference', 10];
-    
-    
+app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
+    $scope.guess={score:0, team:''};
+    var goldDifference = ['Gold Difference'];
+    $scope.postGuess = function(){
+        $scope.guess.score = $scope.coutner;
+        $timeout.cancel(mytimeout);
+        Guess.save($scope.guess);
+    }
+    $scope.disabled = false;
     $scope.counter = 30;
     $scope.onTimeout = function(){
         $scope.counter--;
@@ -14,9 +17,7 @@ app.controller('myCtrl', function($scope, $timeout, Match) {
     }
     
     
-    $scope.stop = function(){
-        $timeout.cancel(mytimeout);
-    }
+
     
     
     

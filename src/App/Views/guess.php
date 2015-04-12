@@ -33,7 +33,9 @@
 
 <div id="chart"></div>
 
-<script>
-    
+<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-disabled= 'disabled'>Blue side wins!</button>
+<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-disabled='disabled'>Red side wins!</button>
 
-</script>
+
+<div class="clear"></div>
+
