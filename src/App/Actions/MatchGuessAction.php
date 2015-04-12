@@ -27,9 +27,6 @@ class MatchGuessAction extends BaseAction {
 		$score = $this->request->query->get('score');
 		/* for debug purposes */
 		if ($score==0 || !$this->segment->get(SessionConstants::WINNING_TEAM) || $score > self::SCORE_LIMIT){
-			echo '<pre>';
-			print_r($this->segment);
-			echo '</pre>';
 			$this->session->destroy();
 		}else if($this->request->query->get('teamId') == $this->segment->get(SessionConstants::WINNING_TEAM)){
 			$this->correctGuess($score);
@@ -58,7 +55,6 @@ class MatchGuessAction extends BaseAction {
 		$this->response->content->set('Nice run! Your final score is'.$previousTotal);
 		$this->session->destroy();
 		$this->response->content->set(json_encode(['correct'=>false, 'previousTotal'=>$previousTotal, 'score'=>$previousTotal, 'questionCount'=>$count]));
-
 	}
 
 }
