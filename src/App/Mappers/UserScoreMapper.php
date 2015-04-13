@@ -14,9 +14,9 @@ class UserScoreMapper {
 	}
 
 	public function save(UserScore $userScore){
-		$sql = "Insert into userScore (`username`, `score`)
-		values (:username, :score)";
-		$this->db->perform($sql, ['username'=>$userScore->getUsername(), 'score'=> $userScore->getScore()]);
+		$sql = "Insert into userScore (`username`, `score`, `questionCount`)
+		values (:username, :score, :questionCount)";
+		$this->db->perform($sql, ['username'=>$userScore->getUsername(), 'score'=> $userScore->getScore(), 'questionCount'=> $userScore->getQuestionCount()]);
 	}
 
 	public function getFromTimeOrderByScore($from){
@@ -32,7 +32,8 @@ class UserScoreMapper {
 				$row['userScoreId'],
 				$row['username'],
 				$row['score'],
-				$row['created']
+				$row['created'],
+				$row['questionCount']
 			);
 		}
 		return $return;

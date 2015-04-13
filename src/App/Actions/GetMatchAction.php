@@ -33,7 +33,7 @@ class GetMatchAction extends BaseAction {
 		$parser = new MatchDetailsJsonParser($res->json());
 
 		//Save the winning team for later so we don't need to re-calculate it or pass it to the client for cheating
-		$segment = $this->session->getSegment(SessionConstants::SEGMENT_KEY);
+		$segment = $this->session->getSegment(SessionConstants::ACTIVE_SEGMENT_KEY);
 		$segment->set(SessionConstants::WINNING_TEAM, $parser->getWinningTeam());
 		$this->response->content->set($parser->getUsefulJson());
 	}

@@ -8,12 +8,14 @@ class UserScore {
 	protected $username;
 	protected $score;
 	protected $created;
+	protected $questionCount;
 
-	public function __construct($id, $username, $score, $created){
+	public function __construct($id, $username, $score, $created, $questionCount){
 		$this->id = $id;
 		$this->username = $username;
 		$this->score = $score;
 		$this->created = $created;
+		$this->questionCount = $questionCount;
 	}
 
 	/**
@@ -42,6 +44,20 @@ class UserScore {
 	 */
 	public function getId() {
 		return $this->id;
+	}
+
+	/**
+	 * @param int $questionCount
+	 */
+	public function setQuestionCount($questionCount){
+		$this->questionCount = $questionCount;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getQuestionCount(){
+		return $this->questionCount;
 	}
 
 	/**

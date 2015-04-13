@@ -45,7 +45,7 @@ class Common extends Config
 			'view' => $di->lazyGet('view'),
 			'matchMapper'=> $di->lazyGet('MatchMapper'),
 			'apiKey'=>$config['apiKey']
-	);
+		);
 
 		$di->params['App\Actions\GetMatchAction'] = array(
 			'request' => $di->lazyGet('aura/web-kernel:request'),
@@ -59,6 +59,13 @@ class Common extends Config
 			'request' => $di->lazyGet('aura/web-kernel:request'),
 			'response' => $di->lazyGet('aura/web-kernel:response'),
 			'matchMapper'=> $di->lazyGet('MatchMapper'),
+			'sessionManager' =>$di->lazyGet('SessionManager')
+		);
+
+		$di->params['App\Actions\SubmitScoreAction'] = array (
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			'userScoreMapper'=> $di->lazyGet('UserScoreMapper'),
 			'sessionManager' =>$di->lazyGet('SessionManager')
 		);
     }
@@ -109,6 +116,7 @@ class Common extends Config
 		$router->add('GuessAction', '/guess');
 		$router->add('GetMatchAction', '/getMatch');
 		$router->add('MatchGuessAction', '/matchGuess');
+		$router->add('SubmitScoreAction', '/submitScore');
 
 
 	}
@@ -133,6 +141,10 @@ class Common extends Config
 		$dispatcher->setObject(
 				   'MatchGuessAction',
 					   $di->lazyNew('App\Actions\MatchGuessAction')
+		);
+		$dispatcher->setObject(
+				   'SubmitScoreAction',
+					   $di->lazyNew('App\Actions\SubmitScoreAction')
 		);
 	}
 

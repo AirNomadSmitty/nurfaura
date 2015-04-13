@@ -19,7 +19,7 @@ class MatchGuessAction extends BaseAction {
 		parent::__construct($request, $response);
 		$this->matchMapper = $matchMapper;
 		$this->session = $session;
-		$this->segment = $this->session->getSegment(SessionConstants::SEGMENT_KEY);
+		$this->segment = $this->session->getSegment(SessionConstants::ACTIVE_SEGMENT_KEY);
 
 	}
 
@@ -43,7 +43,7 @@ class MatchGuessAction extends BaseAction {
 		$segment->set(SessionConstants::TOTAL_SCORE, $previousTotal+$score);
 		$count = $segment->get(SessionConstants::QUESTION_COUNT)+1;
 		$segment->set(SessionConstants::QUESTION_COUNT, $count);
-		$this->response->content->set(json_encode(['correct'=>true, 'previousTotal'=>$previousTotal, 'score'=>$score, 'questionCount'=>$count]));
+		$this->response->content->set(json_encode(['correct'=>true, 'score'=>$score, 'questionCount'=>$count]));
 	}
 
 	protected function incorrectGuess(){
@@ -53,8 +53,15 @@ class MatchGuessAction extends BaseAction {
 		$count = $segment->get(SessionConstants::QUESTION_COUNT);
 
 		$this->response->content->set('Nice run! Your final score is'.$previousTotal);
-		$this->session->destroy();
-		$this->response->content->set(json_encode(['correct'=>false, 'previousTotal'=>$previousTotal, 'score'=>$previousTotal, 'questionCount'=>$count]));
+
+		/* Move scores into another segment that way we can clear this one right away to avoid cheating
+		   Need to save them still for logging to leaderboards once username is picked*/
+		$finishedSegment = $this->session->getSegment(SessionConstants::FINISHED_SEGMENT_KEY);
+		$finishedSegment->set(SessionConstants::QUESTION_COUNT, $count);
+		$finishedSegment->set(SessionConstants::TOTAL_SCORE, $previousTotal);
+		$this->segment->clear();
+
+		$this->response->content->set(json_encode(['correct'=>false, 'score'=>$previousTotal, 'questionCount'=>$count]));
 	}
 
 }
