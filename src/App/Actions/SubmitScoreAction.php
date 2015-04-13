@@ -27,6 +27,7 @@ class SubmitScoreAction extends BaseAction {
 		$username = $this->request->query->get('username');
 		$userScore = new UserScore(null, $username, $score, null, $questions);
 		$this->userScoreMapper->save($userScore);
+		$segment->clear();
 		$this->response->content->set(json_encode(['success'=>true]));
 	}
 }
