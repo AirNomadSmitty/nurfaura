@@ -28,7 +28,7 @@ class MatchGuessAction extends BaseAction {
 		/* for debug purposes */
 		if ($score==0 || !$this->segment->get(SessionConstants::WINNING_TEAM) || $score > self::SCORE_LIMIT){
 			$this->session->destroy();
-		}else if($this->request->query->get('teamId') == $this->segment->get(SessionConstants::WINNING_TEAM)){
+		}else if($this->request->query->get('team') == $this->segment->get(SessionConstants::WINNING_TEAM)){
 			$this->correctGuess($score);
 		} else {
 			$this->incorrectGuess();
