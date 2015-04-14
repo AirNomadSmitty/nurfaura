@@ -24,10 +24,10 @@ class SubmitScoreAction extends BaseAction {
 		$segment = $this->session->getSegment(SessionConstants::FINISHED_SEGMENT_KEY);
 		$score = $segment->get(SessionConstants::TOTAL_SCORE);
 		$questions = $segment->get(SessionConstants::QUESTION_COUNT);
-		$username = $this->request->query->get('username');
+		$username = $this->request->post->get('username');
 		$userScore = new UserScore(null, $username, $score, null, $questions);
-		$this->userScoreMapper->save($userScore);
+		$success = $this->userScoreMapper->save($userScore);
 		$segment->clear();
-		$this->response->content->set(json_encode(['success'=>true]));
+		$this->response->content->set(json_encode(['success'=>$success]));
 	}
 }

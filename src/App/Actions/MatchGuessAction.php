@@ -24,11 +24,11 @@ class MatchGuessAction extends BaseAction {
 	}
 
 	public function __invoke() {
-		$score = $this->request->query->get('score');
+		$score = $this->request->post->get('score');
 		/* for debug purposes */
 		if ($score==0 || !$this->segment->get(SessionConstants::WINNING_TEAM) || $score > self::SCORE_LIMIT){
 			$this->session->destroy();
-		}else if($this->request->query->get('team') == $this->segment->get(SessionConstants::WINNING_TEAM)){
+		}else if($this->request->post->get('team') == $this->segment->get(SessionConstants::WINNING_TEAM)){
 			$this->correctGuess($score);
 		} else {
 			$this->incorrectGuess();
@@ -37,17 +37,17 @@ class MatchGuessAction extends BaseAction {
 	}
 
 	protected function correctGuess($score){
-		$this->matchMapper->logGuess($this->request->query->get('matchId'), true);
+		$this->matchMapper->logGuess($this->request->post->get('matchId'), true);
 		$segment = $this->segment;
 		$previousTotal = $segment->get(SessionConstants::TOTAL_SCORE);
 		$segment->set(SessionConstants::TOTAL_SCORE, $previousTotal+$score);
 		$count = $segment->get(SessionConstants::QUESTION_COUNT)+1;
 		$segment->set(SessionConstants::QUESTION_COUNT, $count);
-		$this->response->content->set(json_encode(['correct'=>true, 'score'=>$score, 'questionCount'=>$count]));
+		$this->response->content->set(json_encode(['correct'=>true, 'score'=>$previousTotal+$score, 'questionCount'=>$count]));
 	}
 
 	protected function incorrectGuess(){
-		$this->matchMapper->logGuess($this->request->query->get('matchId'), false);
+		$this->matchMapper->logGuess($this->request->post->get('matchId'), false);
 		$segment = $this->segment;
 		$previousTotal = $segment->get(SessionConstants::TOTAL_SCORE);
 		$count = $segment->get(SessionConstants::QUESTION_COUNT);

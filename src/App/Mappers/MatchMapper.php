@@ -41,7 +41,7 @@ class MatchMapper {
 	public function logGuess($riotMatchId, $correct){
 		$sql = "Update matches set sumGuessed = sumGuessed + 1";
 		if($correct){
-			$sql.= ", set sumCorrect = sumCorrect + 1 ";
+			$sql.= " , sumCorrect = sumCorrect + 1 ";
 		}
 		$sql.=" Where riotMatchId = :riotMatchId";
 		$this->db->perform($sql, ['riotMatchId'=>$riotMatchId]);
