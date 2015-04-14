@@ -62,6 +62,15 @@ class MatchDetailsJsonParser {
 	protected function normalizeTimestamp($timestamp){
 		return (int)(($timestamp / $this->gameLength) * self::TOTAL_MATCH_REPLAY_TIME);
 	}
+	
+	protected function prettyTimestamp($timestamp){
+		$seconds = floor($timestamp/1000);
+		$minutes = floor($seconds / 60);
+		$seconds = $seconds % 60;
+
+		return sprintf("%01d:%02d", $minutes, $seconds);
+
+	}
 
 	protected function getKeyFromTeamId($teamId){
 		return $this->teamIdKeyMap[$teamId];
@@ -114,12 +123,13 @@ class MatchDetailsJsonParser {
 			if(isset($frame['events'])){
 				foreach($frame['events'] as $eventJson){
 					if($eventJson['eventType'] == self::EVENT_CHAMPION_KILL){
-						$eventJson['timestamp'] = $this->normalizeTimestamp($eventJson['timestamp']);
+						$eventJson['normalizedTimestamp'] = $this->normalizeTimestamp($eventJson['timestamp']);
+						$eventJson['prettyTimestamp'] = $this->prettyTimestamp($eventJson['timestamp']);
 						$timelineJson[] = $eventJson;
 					}
 				}
 			}
-			$timelineJson[] = ['eventType'=> self::EVENT_GOLD_UPDATE, 'timestamp'=> $this->normalizeTimestamp($frame['timestamp']), 'gold' => $this->buildTeamGoldJsonFromParticipantFrames($frame['participantFrames'])];
+			$timelineJson[] = ['eventType'=> self::EVENT_GOLD_UPDATE, 'normalizedTimestamp'=> $this->normalizeTimestamp($frame['timestamp']), 'prettyTimestamp'=>$this->prettyTimestamp($frame['timestamp']), 'timestamp'=>$frame['timestamp'], 'gold' => $this->buildTeamGoldJsonFromParticipantFrames($frame['participantFrames'])];
 		}
 		return $timelineJson;
 	}

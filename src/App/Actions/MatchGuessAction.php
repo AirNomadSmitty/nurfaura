@@ -28,7 +28,7 @@ class MatchGuessAction extends BaseAction {
 		/* for debug purposes */
 		if ($score==0 || !$this->segment->get(SessionConstants::WINNING_TEAM) || $score > self::SCORE_LIMIT){
 			$this->session->destroy();
-		}else if($this->request->post->get('team') == $this->segment->get(SessionConstants::WINNING_TEAM)){
+		}else if(strtolower($this->request->post->get('team')) == $this->segment->get(SessionConstants::WINNING_TEAM)){
 			$this->correctGuess($score);
 		} else {
 			$this->incorrectGuess();
@@ -50,8 +50,9 @@ class MatchGuessAction extends BaseAction {
 		$this->matchMapper->logGuess($this->request->post->get('matchId'), false);
 		$segment = $this->segment;
 		$previousTotal = $segment->get(SessionConstants::TOTAL_SCORE);
+		$previousTotal= is_null($previousTotal)? 0 : $previousTotal;
 		$count = $segment->get(SessionConstants::QUESTION_COUNT);
-
+		$count = is_null($count)? 0 : $count;
 		$this->response->content->set('Nice run! Your final score is'.$previousTotal);
 
 		/* Move scores into another segment that way we can clear this one right away to avoid cheating

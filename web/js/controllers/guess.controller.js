@@ -1,11 +1,19 @@
-var app = angular.module('myApp', ['ngResource', 'myApp.services']);
+var app = angular.module('myApp', ['ngResource', 'myApp.services', 'myApp.directives']);
 app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
-    $scope.guess={score:0, team:''};
+    $scope.guess={score:0, team:'', matchId:0};
     var goldDifference = ['Gold Difference'];
+    var timeAxis = ['x'];
+    
     $scope.postGuess = function(){
-        $scope.guess.score = $scope.coutner;
+        $scope.guess.score = $scope.counter;
+        $scope.guess.matchId = $scope.match.match;
+        debugger
         $timeout.cancel(mytimeout);
-        Guess.save($scope.guess);
+        Guess.post($.param($scope.guess), function(u, putResponseHeaders){
+            $scope.result = {questionCount: u.questionCount, score: u.score};
+            $scope.showModalCorrect = u.correct;
+            $scope.showModalWrong = !$scope.showModalCorrect; 
+        });
     }
     $scope.disabled = false;
     $scope.counter = 30;
@@ -16,20 +24,22 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
         }
     }
     
-    
-
-    
-    
+    $scope.showModalCorrect = false;
+    $scope.showModalWrong = false;
+    $scope.toggleModal = function(){
+        $scope.showModal = !$scope.showModal;
+    };
+  
     
     function setupTimers(){
             for (var i in match.events) {
                 if(match.events[i].eventType == 'CHAMPION_KILL'){
-                    $timeout(deathCounter.bind(null, match.events[i]),match.events[i].timestamp);
+                    $timeout(deathCounter.bind(null, match.events[i]),match.events[i].normalizedTimestamp);
                 }
                 else if(match.events[i].eventType == 'GOLD_UPDATE')
                 {
                     var time = match.events[i].timestamp;
-                    $timeout(goldCounter.bind(null, match.events[i]), match.events[i].timestamp);
+                    $timeout(goldCounter.bind(null, match.events[i]), match.events[i].normalizedTimestamp);
                 }
             }
         }
@@ -70,8 +80,10 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     
     function goldCounter(event){
         goldDifference.push(event.gold.blue - event.gold.red);
+        timeAxis.push(event.prettyTimestamp);
         chart.load({
             columns:[
+                timeAxis,
                 goldDifference
             ]
         });
@@ -86,15 +98,19 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     }
     
    var chart = c3.generate({
-        bindto: '#chart',
+        bindto: '#goldGraph',
         data: {
+            x: 'x',
             columns: [
-                goldDifference,
+                timeAxis,
+                goldDifference
             ]
         },
         axis: {
           x: {
+            type: 'timeseries',
             tick: {
+              format: '%M:%S',
               count: 0
             }
           }
