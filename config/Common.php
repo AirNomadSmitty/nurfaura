@@ -68,6 +68,18 @@ class Common extends Config
 			'userScoreMapper'=> $di->lazyGet('UserScoreMapper'),
 			'sessionManager' =>$di->lazyGet('SessionManager')
 		);
+
+		$di->params['App\Actions\LeaderboardAction'] = array (
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			'view' => $di->lazyGet('view')
+		);
+
+		$di->params['App\Actions\GetLeaderboardAction'] = array (
+			'request' => $di->lazyGet('aura/web-kernel:request'),
+			'response' => $di->lazyGet('aura/web-kernel:response'),
+			'userScoreMapper'=> $di->lazyGet('UserScoreMapper')
+		);
     }
 
     public function modify(Container $di)
@@ -117,8 +129,8 @@ class Common extends Config
 		$router->add('GetMatchAction', '/getMatch');
 		$router->add('MatchGuessAction', '/matchGuess');
 		$router->add('SubmitScoreAction', '/submitScore');
-
-
+		$router->add('LeaderboardAction', '/leaderboard');
+		$router->add('GetLeaderboardAction', '/getLeaderboard');
 	}
 
     public function modifyWebDispatcher($di)
@@ -146,6 +158,15 @@ class Common extends Config
 				   'SubmitScoreAction',
 					   $di->lazyNew('App\Actions\SubmitScoreAction')
 		);
+		$dispatcher->setObject(
+				   'LeaderboardAction',
+					   $di->lazyNew('App\Actions\LeaderboardAction')
+		);
+		$dispatcher->setObject(
+				   'GetLeaderboardAction',
+					   $di->lazyNew('App\Actions\GetLeaderboardAction')
+		);
+
 	}
 
 	private function setMappers(Container $di){

@@ -5,6 +5,14 @@ namespace App\Mappers;
 use App\Objects\UserScore\UserScore;
 use Aura\Sql\ExtendedPdo;
 
+/**
+ * Class UserScoreMapper for interacting with UserScore table
+ * Note that some of the getters return arrays instead of standard php objects.
+ * This is because we're going to be getting most of these via post requests so we'll be passing them back as json anyway
+ * Due to the large numbers of scores we'll be passing, easiest to leave them in array form in this case.
+ *
+ * @package App\Mappers
+ */
 class UserScoreMapper {
 
 	protected $db;
@@ -26,6 +34,16 @@ class UserScoreMapper {
 	public function getFromTimeOrderByScore($from){
 		$sql = "Select * from userScores where created > :from and created < NOW() Order by `score` desc";
 		return $this->db->fetchAssoc($sql, ['from'=>$from]);
+	}
+
+	public function getAllArrayOrderByScore(){
+		$sql = "Select * from userScores Order By `score` desc";
+		return $this->db->fetchAssoc($sql);
+	}
+
+	public function getArrayLikeUsername($username){
+		$sql = "Select * from userScores where `username` like :username";
+		return $this->db->fetchAssoc($sql, ['username'=>'%'.$username.'%']);
 	}
 
 

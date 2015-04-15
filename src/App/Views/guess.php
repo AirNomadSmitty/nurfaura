@@ -1,15 +1,16 @@
 <?php ?>
-<script type="text/javascript" src="../node_modules/angular/angular.js"></script>
-<script type="text/javascript" src="../node_modules/angular-resource/angular-resource.js"></script>
-<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="/web/js/services/guess.services.js"></script>
-<script type="text/javascript" src="/web/js/controllers/guess.controller.js"></script>
-<script type="text/javascript" src="/web/js/directives/guess.directives.js"></script>
+<script type="text/javascript" src="/node_modules/angular/angular.js"></script>
+<script type="text/javascript" src="/node_modules/angular-resource/angular-resource.js"></script>
+<script type="text/javascript" src="/node_modules/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/directives/guess.directives.js"></script>
+<script type="text/javascript" src="/js/services/guess.services.js"></script>
+<script type="text/javascript" src="/js/controllers/guess.controller.js"></script>
+<script type="text/javascript" src="/js/directives/guess.directives.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
-<link href= "node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
-<link href= "../../../web/css/c3.css" rel="stylesheet" type="text/css">
+<link href= "/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href= "/css/c3.css" rel="stylesheet" type="text/css">
 <div ng-app="myApp" ng-controller="myCtrl">
 {{counter}} 
 

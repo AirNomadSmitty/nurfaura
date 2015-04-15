@@ -10,6 +10,8 @@ use Aura\Web\Response;
 use Aura\View\View;
 use App\Mappers\MatchMapper;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\TransferException;
 
 class GetMatchAction extends BaseAction {
 
@@ -29,12 +31,16 @@ class GetMatchAction extends BaseAction {
 	public function __invoke() {
 		$client = new Client();
 		$match = $this->matchMapper->getRandom();
-		$res = $client->get('https://na.api.pvp.net/api/lol/na/v2.2/match/'.$match->getRiotMatchId().'?includeTimeline=true&api_key='.$this->apiKey);
-		$parser = new MatchDetailsJsonParser($res->json());
+		try {
+			$res = $client->get('https://na.api.pvp.net/api/lol/na/v2.2/match/'.$match->getRiotMatchId().'?includeTimeline=true&api_key='.$this->apiKey);
+			$parser = new MatchDetailsJsonParser($res->json());
 
-		//Save the winning team for later so we don't need to re-calculate it or pass it to the client for cheating
-		$segment = $this->session->getSegment(SessionConstants::ACTIVE_SEGMENT_KEY);
-		$segment->set(SessionConstants::WINNING_TEAM, $parser->getWinningTeam());
-		$this->response->content->set($parser->getUsefulJson());
+			//Save the winning team for later so we don't need to re-calculate it or pass it to the client for cheating
+			$segment = $this->session->getSegment(SessionConstants::ACTIVE_SEGMENT_KEY);
+			$segment->set(SessionConstants::WINNING_TEAM, $parser->getWinningTeam());
+			$this->response->content->set(json_encode($parser->getUsefulArray()));
+		} catch(TransferException $e){
+			$this->response->content->set(json_encode(['success'=>false]));
+		}
 	}
 }

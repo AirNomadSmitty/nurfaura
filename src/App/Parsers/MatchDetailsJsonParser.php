@@ -76,13 +76,13 @@ class MatchDetailsJsonParser {
 		return $this->teamIdKeyMap[$teamId];
 	}
 
-	public function getUsefulJson(){
+	public function getUsefulArray(){
 		$return = [];
 		$return['match'] = $this->matchJson['matchId'];
 		$return['teams'] = $this->buildUsefulTeamsJson();
 		$return['events'] = $this->buildUsefulEventsJson();
 		$return['matchLength'] = $this->prettyTimestamp($this->gameLength);
-		return json_encode($return);
+		return $return;
 	}
 
 	protected function buildUsefulTeamsJson(){
