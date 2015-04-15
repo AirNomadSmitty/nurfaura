@@ -96,11 +96,12 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
             } 
         }
     }
-    
+
    var chart = c3.generate({
         bindto: '#goldGraph',
         data: {
             x: 'x',
+			xFormat: '%M:%S',
             columns: [
                 timeAxis,
                 goldDifference
@@ -110,12 +111,16 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
           x: {
             type: 'timeseries',
             tick: {
-              format: '%M:%S',
-              count: 0
+              format: '%M:%S'
             }
           }
-        }
-    });
+        },
+	   regions: [
+			{axis: 'y', end: 0, class: 'region-red'},
+			{axis: 'y', start: 0, class: 'region-blue'}
+		]
+
+});
          
     
     
@@ -129,7 +134,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     var match = Match.get({}, function(){
         $scope.match = match.toJSON();
 
-        
+		chart.axis.max({x: $scope.match.matchLength});
         setupTimers();
         var mytimeout = $timeout($scope.onTimeout,1000);
     })    
