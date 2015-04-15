@@ -105,7 +105,16 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
             columns: [
                 timeAxis,
                 goldDifference
-            ]
+            ],
+			color: function(color, d){
+				if( d.value > 0){
+					return '#0814FC';
+				} else if ( d.value < 0){
+					return '#FF0000';
+				} else {
+					return '#000000'
+				}
+			}
         },
         axis: {
           x: {
