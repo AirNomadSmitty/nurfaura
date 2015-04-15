@@ -1,8 +1,37 @@
 var app = angular.module('myApp', ['ngResource', 'myApp.services', 'myApp.directives']);
 app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
-    $scope.guess={score:0, team:'', matchId:0};
-    var goldDifference = ['Gold Difference'];
-    var timeAxis = ['x'];
+    
+    var goldDifference, timeAxis,  match, mytimeout, timers;
+     timers =[];
+    goldDifference = ['Gold Difference'];
+    timeAxis = ['x'];
+    var chart = setChartOptions();
+    $scope.runAGame = function(){
+        
+        $scope.guess={score:0, team:'', matchId:0};
+        goldDifference = ['Gold Difference'];
+        timeAxis = ['x'];
+        $scope.disabled = false;
+        $scope.counter = 30;
+        $scope.showModalCorrect = false;
+        $scope.showModalWrong = false;
+        clearTimers();
+        timers =[];
+        match = Match.get({}, function(){
+            $scope.match = match.toJSON();
+    		chart.axis.max({x: $scope.match.matchLength});
+            setupTimers();
+            mytimeout = $timeout($scope.onTimeout,1000);
+        })    
+    }
+    
+    function clearTimers(){
+        while(timers.length > 0) {
+            var currentTimer =timers.shift();
+            $timeout.cancel(currentTimer)
+        }
+    }
+
     
     $scope.postGuess = function(){
         $scope.guess.score = $scope.counter;
@@ -15,8 +44,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
             $scope.showModalWrong = !$scope.showModalCorrect; 
         });
     }
-    $scope.disabled = false;
-    $scope.counter = 30;
+
     $scope.onTimeout = function(){
         $scope.counter--;
         if($scope.counter > 0){
@@ -24,8 +52,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
         }
     }
     
-    $scope.showModalCorrect = false;
-    $scope.showModalWrong = false;
+
     $scope.toggleModal = function(){
         $scope.showModal = !$scope.showModal;
     };
@@ -34,12 +61,11 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     function setupTimers(){
             for (var i in match.events) {
                 if(match.events[i].eventType == 'CHAMPION_KILL'){
-                    $timeout(deathCounter.bind(null, match.events[i]),match.events[i].normalizedTimestamp);
+                    timers.push($timeout(deathCounter.bind(null, match.events[i]),match.events[i].normalizedTimestamp));
                 }
                 else if(match.events[i].eventType == 'GOLD_UPDATE')
                 {
-                    var time = match.events[i].timestamp;
-                    $timeout(goldCounter.bind(null, match.events[i]), match.events[i].normalizedTimestamp);
+                    timers.push($timeout(goldCounter.bind(null, match.events[i]), match.events[i].normalizedTimestamp));
                 }
             }
         }
@@ -96,110 +122,40 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
             } 
         }
     }
+    function setChartOptions(){
+        return c3.generate({
+            bindto: '#goldGraph',
+            data: {
+                x: 'x',
+    			xFormat: '%M:%S',
+                columns: [
+                    timeAxis,
+                    goldDifference
+                ],
+    			color: function(color, d){
+    				if( d.value > 0){
+    					return '#0814FC';
+    				} else if ( d.value < 0){
+    					return '#FF0000';
+    				} else {
+    					return '#000000'
+    				}
+    			}
+            },
+            axis: {
+              x: {
+                type: 'timeseries',
+                tick: {
+                  format: '%M:%S'
+                }
+              }
+            },
+    	   regions: [
+    			{axis: 'y', end: 0, class: 'region-red'},
+    			{axis: 'y', start: 0, class: 'region-blue'}
+    		]
 
-   var chart = c3.generate({
-        bindto: '#goldGraph',
-        data: {
-            x: 'x',
-			xFormat: '%M:%S',
-            columns: [
-                timeAxis,
-                goldDifference
-            ],
-			color: function(color, d){
-				if( d.value > 0){
-					return '#0814FC';
-				} else if ( d.value < 0){
-					return '#FF0000';
-				} else {
-					return '#000000'
-				}
-			}
-        },
-        axis: {
-          x: {
-            type: 'timeseries',
-            tick: {
-              format: '%M:%S'
-            }
-          }
-        },
-	   regions: [
-			{axis: 'y', end: 0, class: 'region-red'},
-			{axis: 'y', start: 0, class: 'region-blue'}
-		]
-
-});
-         
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    var match = Match.get({}, function(){
-        $scope.match = match.toJSON();
-
-		chart.axis.max({x: $scope.match.matchLength});
-        setupTimers();
-        var mytimeout = $timeout($scope.onTimeout,1000);
-    })    
-        
-        // $scope.playerPictureRed = [];
-        // $scope.playerPictureBlue = [];
-        // for (var x in $scope.match.participants) {
-        //     debugger
-        //     var id = $scope.match.participants[x].championId;
-        //     var player = {id: id, picture: $scope.getPicture(id), currentKills: 0, currentDeaths: 0};
-        //     if($scope.match.participants[x].teamId == 100 ){
-        //         $scope.playerPictureRed.push(player);
-        //     }
-        //     else{
-        //       $scope.playerPictureBlue.push(player);  
-        //     }
-        //     // $scope.match.participants[x];
-        //     // player.picture = $scope.getPicture;
-        // }
-        
-        // function randomTimeline(){
-        //     var timeline =[]; 
-        //     var playerDuple = randomPlayer();
-        //     timeline.push({player: playerDuple.player, playerKilled:playerDuple.playerKilled, time:Math.floor(Math.random() * 20)});
-        //     var events = Math.floor(Math.random() * 50);
-        //     for( var i = 0; i <events; i++ )
-        //     {
-        //         var time = Math.floor(Math.random() * 1000 + timeline[i].time );
-        //         playerDuple = randomPlayer();
-        //         timeline.push({player: playerDuple.player, playerKilled:playerDuple.playerKilled, time:time});
-        //     }
-            
-        //     return timeline;
-        // };
-        
-        
-        // function randomPlayer(){
-        //     var team = Math.random();
-        //     var player;
-        //     var playerKilled;
-        //     if (team > .5)
-        //     {
-        //         player = $scope.playerPictureRed[Math.floor((Math.random() * 5))].id;
-        //         playerKilled = $scope.playerPictureBlue[Math.floor((Math.random() * 5))].id;
-        //     }
-        //     else
-        //     {
-        //         player = $scope.playerPictureBlue[Math.floor((Math.random() * 5))].id;
-        //         playerKilled = $scope.playerPictureRed[Math.floor((Math.random() * 5))].id;
-        //     }
-        //     return {player:player, playerKilled:playerKilled};
-        // }
-        
-
-        
-
-
-    
+        });
+    }
+    $scope.runAGame();
 });

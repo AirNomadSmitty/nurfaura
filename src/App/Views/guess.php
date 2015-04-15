@@ -46,19 +46,19 @@
     
   <modal title="Correct!" visible="showModalCorrect">
     <form role="form">
-    <button type="submit" class="btn btn-default" ng-click="showModalCorrect = false">Next Match!</button>
+    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Next Match!</button>
     </form>
   </modal>
   
     <modal title="Incorrect!" visible="showModalWrong">
-    <h4>Incorrect! But nice run! After {{result.questionCount}} games your final score is {{result.score}}</h4>
+    <h4>But nice run! After {{result.questionCount}} games your final score is {{result.score}}</h4>
     <form role="form">
         <p>To save your score type in a username below</p>
       <div class="form-group">
         <label for="email">Username</label>
-        <input  class="form-control" id="username" placeholder="Username" />
+        <input ng-model="username" class="form-control" id="username" placeholder="Username" />
       </div>
-    <button type="submit" class="btn btn-default" ng-click="showModalWrong = false">Submit</button>
+    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Submit</button>
     </form>
   </modal>
 
