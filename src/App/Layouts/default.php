@@ -13,7 +13,6 @@
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
-	<div class="wrapper">
 		<div class="header">
 			<div class="container">
 				<h1 class="header-heading">URF Pick'em</h1>
@@ -28,10 +27,13 @@
 				</ul>
 			</div>
 		</div>
-		<div class="content">
-			<div class="container">
-				<div class="main">
-					<?= $this->getContent(); ?>
+		<div class="wrapper">
+			<div class="content">
+				<div class="container">
+					<div class="main">
+						<?= $this->getContent(); ?>
+						<div class="clear"></div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -40,6 +42,5 @@
 				&copy; Copyright 2015
 			</div>
 		</div>
-	</div>
 </body>
 </html>

@@ -81,6 +81,7 @@ class MatchDetailsJsonParser {
 		$return['match'] = $this->matchJson['matchId'];
 		$return['teams'] = $this->buildUsefulTeamsJson();
 		$return['events'] = $this->buildUsefulEventsJson();
+		$return['matchLength'] = $this->prettyTimestamp($this->gameLength);
 		return json_encode($return);
 	}
 

@@ -141,6 +141,16 @@ Index styles
     display: inline;
 }
 
+/* -----------------------
+Graph Styles
+------------------------*/
+.c3-region.region-red{
+    fill: red;
+}
+
+.c3-region.region-blue{
+    fill: blue;
+}
 
 /* -----------------------
 Wide styles
