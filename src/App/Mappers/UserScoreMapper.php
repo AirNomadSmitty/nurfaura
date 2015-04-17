@@ -33,17 +33,17 @@ class UserScoreMapper {
 
 	public function getFromTimeOrderByScore($from){
 		$sql = "Select * from userScores where created > :from and created < NOW() Order by `score` desc";
-		return $this->db->fetchAssoc($sql, ['from'=>$from]);
+		return $this->db->fetchAll($sql, ['from'=>$from]);
 	}
 
 	public function getAllArrayOrderByScore(){
 		$sql = "Select * from userScores Order By `score` desc";
-		return $this->db->fetchAssoc($sql);
+		return $this->db->fetchAll($sql);
 	}
 
 	public function getArrayLikeUsername($username){
 		$sql = "Select * from userScores where `username` like :username";
-		return $this->db->fetchAssoc($sql, ['username'=>'%'.$username.'%']);
+		return $this->db->fetchAll($sql, ['username'=>'%'.$username.'%']);
 	}
 
 

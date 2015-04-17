@@ -6,7 +6,7 @@
 
 <h3>Leader Board</h3>
 <div ng-app='leaderboard' ng-controller='leaderboard.controller.grid'>
-    <table st-table="rowCollection" class="table table-striped">
+    <table st-table="rows" st-safe-src="players" class="table table-striped">
     	<thead>
     	<tr>
     		<th st-sort="username">Username</th>
@@ -14,12 +14,12 @@
     	</tr>
     	<tr>
     		<th>
-    			<input st-search="'username'" placeholder="Search for Username" class="input-sm form-control" type="search"/>
+    			<input st-search="" placeholder="Search for Username" class="input-sm form-control" type="search"/>
     		</th>
     	</tr>
     	</thead>
     	<tbody>
-    	<tr ng-repeat="row in players">
+    	<tr ng-repeat="row in rows">
     		<td>{{row.username}}</td>
     		<td>{{row.score}}</td>
     	</tr>
