@@ -12,8 +12,11 @@
 
 <link href= "/css/c3.css" rel="stylesheet" type="text/css">
 <div ng-app="myApp" ng-controller="myCtrl">
+	<div id = "overallScore">
+		Overall Score: <span>0</span>
+	</div>
 	<div id="matchScore">
-	{{counter}}
+	Score: {{counter}}
 	</div>
 <div class="matchContainer">
 	<table class="teamTable" >

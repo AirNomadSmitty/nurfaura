@@ -39,6 +39,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
         $timeout.cancel(mytimeout);
         Guess.post($.param($scope.guess), function(u, putResponseHeaders){
             $scope.result = {questionCount: u.questionCount, score: u.score};
+			$('#overallScore span').html(u.score);
             $scope.showModalCorrect = u.correct;
             $scope.showModalWrong = !$scope.showModalCorrect; 
         });
