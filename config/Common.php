@@ -124,13 +124,13 @@ class Common extends Config
     {
         $router = $di->get('aura/web-kernel:router');
 
-        $router->add('IndexAction', '/');
-		$router->add('GuessAction', '/guess');
-		$router->add('GetMatchAction', '/getMatch');
-		$router->add('MatchGuessAction', '/matchGuess');
-		$router->add('SubmitScoreAction', '/submitScore');
-		$router->add('LeaderboardAction', '/leaderboard');
-		$router->add('GetLeaderboardAction', '/getLeaderboard');
+        $router->add('IndexAction', '/web/');
+		$router->add('GuessAction', '/web/guess');
+		$router->add('GetMatchAction', '/web/getMatch');
+		$router->add('MatchGuessAction', '/web/matchGuess');
+		$router->add('SubmitScoreAction', '/web/submitScore');
+		$router->add('LeaderboardAction', '/web/leaderboard');
+		$router->add('GetLeaderboardAction', '/web/getLeaderboard');
 	}
 
     public function modifyWebDispatcher($di)

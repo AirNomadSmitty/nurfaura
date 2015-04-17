@@ -1,12 +1,8 @@
 <?php ?>
-<script type="text/javascript" src="/node_modules/angular/angular.js"></script>
-<script type="text/javascript" src="/node_modules/angular-resource/angular-resource.js"></script>
-<script type="text/javascript" src="/node_modules/jquery/dist/jquery.js"></script>
-<script type="text/javascript" src="/node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script type="text/javascript" src="/js/directives/guess.directives.js"></script>
-<script type="text/javascript" src="/js/services/guess.services.js"></script>
-<script type="text/javascript" src="/js/controllers/guess.controller.js"></script>
-<script type="text/javascript" src="/js/directives/guess.directives.js"></script>
+
+<script type="text/javascript" src="js/services/guess.services.js"></script>
+<script type="text/javascript" src="js/controllers/guess.controller.js"></script>
+<script type="text/javascript" src="js/directives/guess.directives.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js" charset="utf-8"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
 
@@ -66,7 +62,7 @@
         <p>To save your score type in a username below</p>
       <div class="form-group">
         <label for="email">Username</label>
-        <input ng-model="username" class="form-control" id="username" placeholder="Username" />
+        <input ng-model="$parent.$parent.username" class="form-control" id="username" placeholder="Username" />
       </div>
     <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Submit</button>
     </form>

@@ -7,10 +7,14 @@
 	<title>URF Pick'em</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="Description" lang="en" content="Picking the winner of URF games">
-	<meta name="author" content="ADD AUTHOR INFORMATION">
+	<meta name="author" content="Miles Doulas and David Murro">
 	<meta name="robots" content="index">
-	<link href= "/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="/css/main.css">
+	<link href= "css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="css/main.css">
+	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
+	<script type="text/javascript" src="node_modules/angular-resource/angular-resource.js"></script>
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
 		<div class="header">

@@ -1,13 +1,22 @@
 var app = angular.module('myApp', ['ngResource', 'myApp.services', 'myApp.directives']);
-app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
-    
+app.controller('myCtrl', [
+    '$scope',
+    '$timeout',
+    'Match',
+    'Guess',
+    'guess.services.leaderboard',
+    function($scope, $timeout, Match, Guess, leaderboardPost) {
     var goldDifference, timeAxis,  match, mytimeout, timers;
      timers =[];
     goldDifference = ['Gold Difference'];
     timeAxis = ['x'];
     var chart = setChartOptions();
     $scope.runAGame = function(){
-        
+        debugger
+        if(typeof($scope.username) != 'undefined' && $scope.username.trim().length >0 ){
+            leaderboardPost.post($.param({username: $scope.username.trim()}))
+        }
+        $scope.username = '';
         $scope.guess={score:0, team:'', matchId:0};
         goldDifference = ['Gold Difference'];
         timeAxis = ['x'];
@@ -53,11 +62,6 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     }
     
 
-    $scope.toggleModal = function(){
-        $scope.showModal = !$scope.showModal;
-    };
-  
-    
     function setupTimers(){
             for (var i in match.events) {
                 if(match.events[i].eventType == 'CHAMPION_KILL'){
@@ -162,4 +166,4 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
         });
     }
     $scope.runAGame();
-});
+}]);

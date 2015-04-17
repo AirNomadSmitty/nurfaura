@@ -1,0 +1,1 @@
+angular.module('leaderboard', ['ngResource', 'leaderboard.services', 'smart-table', 'leaderboard.controller']);
