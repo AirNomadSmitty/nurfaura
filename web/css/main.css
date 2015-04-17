@@ -7,7 +7,7 @@ body
     margin: 0;
     padding: 0;
     color: #333;
-    background-color: #eee;
+    background-color: #E0E0E0;
     font: 1em/1.2 "Helvetica Neue", Helvetica, Arial, Geneva, sans-serif;
 }
 
@@ -51,18 +51,19 @@ Layout styles
 .wrapper{
     margin: 0 auto;
     width: 80%;
+    min-width: 936px;
+    background: #FAFAFA;
 }
 
 .container
 {
-    max-width: 50em;
     margin: 0 auto;
 }
 
 .header
 {
     color: #fff;
-    background: #999;
+    background: #809AA0;
     padding: 1em 1.25em;
 }
 
@@ -70,20 +71,19 @@ Layout styles
 
 .nav-bar
 {
-    background: #000;
+    background: #E1E9EA;;
     padding: 0;
 }
 
 .content
 {
-    padding: 1em 1.25em;
     background-color: #fff;
 }
 
 .footer
 {
     color: #fff;
-    background: #000;
+    background: #809AA0;
     padding: 1em 1.25em;
 }
 
@@ -101,26 +101,30 @@ Layout styles
 Nav
 ------------------------*/
 
-.nav
+.nav-ul
 {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.nav li
+.nav-ul li
 {
     display: inline;
     margin: 0;
 }
 
-.nav a
+.nav-ul a
 {
     display: block;
-    padding: .7em 1.25em;
-    color: #fff;
+    padding: 0 15px;
+    color: #9B9AB3;
     text-decoration: none;
     border-bottom: 1px solid gray;
+}
+
+.nav-ul li a:hover {
+    color: #535A74;
 }
 
 /* -----------------------
@@ -142,8 +146,35 @@ Index styles
 }
 
 /* -----------------------
-Graph Styles
+Match Styles
 ------------------------*/
+#matchScore {
+    margin: 0 auto;
+    width: 100px;
+    text-align: center;
+    font-size: 40px;
+}
+
+.matchContainer {
+    display: table;
+    margin: 0 auto;
+    min-width: 936px;
+}
+
+.teamTable {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.champScores {
+   width: 67px;
+}
+
+#graphContainer {
+    width: 650px;
+    display: inline-block;
+}
+
 .c3-region.region-red{
     fill: red;
 }
@@ -158,21 +189,20 @@ Wide styles
 
 @media (min-width: 42em)
 {
-    .header { padding: 1.5em 3em; }
-    .nav-bar { padding: 1em 3em; }
-    .content { padding: 2em 3em; }
-    .footer { padding: 2em 3em; }
+    .header { padding: 1.5em 0;min-width: 936px;}
+    .nav-bar { padding: 1em 0;min-width: 936px;}
+    .footer { padding: 2em 3em;min-width: 936px; }
 
-    .nav li
+    .nav-ul li
     {
         display: inline;
         margin: 0 1em 0 0;
     }
 
-    .nav a
+    .nav-ul a
     {
         display: inline;
-        padding: 0;
+        padding: 0 15px;
         border-bottom: 0;
     }
 }

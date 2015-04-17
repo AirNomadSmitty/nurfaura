@@ -12,7 +12,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
         goldDifference = ['Gold Difference'];
         timeAxis = ['x'];
         $scope.disabled = false;
-        $scope.counter = 30;
+        $scope.counter = 500;
         $scope.showModalCorrect = false;
         $scope.showModalWrong = false;
         clearTimers();
@@ -22,7 +22,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     		chart.axis.max({x: $scope.match.matchLength});
             setupTimers();
             mytimeout = $timeout($scope.onTimeout,1000);
-        })    
+        })
     }
     
     function clearTimers(){
@@ -36,7 +36,6 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     $scope.postGuess = function(){
         $scope.guess.score = $scope.counter;
         $scope.guess.matchId = $scope.match.match;
-        debugger
         $timeout.cancel(mytimeout);
         Guess.post($.param($scope.guess), function(u, putResponseHeaders){
             $scope.result = {questionCount: u.questionCount, score: u.score};
@@ -48,7 +47,7 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     $scope.onTimeout = function(){
         $scope.counter--;
         if($scope.counter > 0){
-            mytimeout = $timeout($scope.onTimeout,1000);
+            mytimeout = $timeout($scope.onTimeout,60);
         }
     }
     
@@ -125,6 +124,10 @@ app.controller('myCtrl', function($scope, $timeout, Match, Guess) {
     function setChartOptions(){
         return c3.generate({
             bindto: '#goldGraph',
+			size: {
+				height: 400,
+				width: 650
+			},
             data: {
                 x: 'x',
     			xFormat: '%M:%S',

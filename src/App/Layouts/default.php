@@ -9,7 +9,7 @@
 	<meta name="Description" lang="en" content="Picking the winner of URF games">
 	<meta name="author" content="ADD AUTHOR INFORMATION">
 	<meta name="robots" content="index">
-
+	<link href= "/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -20,7 +20,7 @@
 		</div>
 		<div class="nav-bar">
 			<div class="container">
-				<ul class="nav">
+				<ul class="nav-ul">
 					<li><a href="/">Home</a></li>
 					<li><a href="/guess">Pick'em</a></li>
 					<li><a href="/leaderboards">Leaderboards</a></li>
