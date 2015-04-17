@@ -18,7 +18,12 @@
 	<div id="matchScore">
 	Score: {{counter}}
 	</div>
-<div class="matchContainer">
+
+	<div class="matchGuessButtons">
+		<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-disabled= 'disabled' class='btn blue'>Blue side wins!</button>
+		<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-disabled='disabled' class='btn red'>Red side wins!</button>
+	</div>
+	<div class="matchContainer">
 	<table class="teamTable" >
 		<tr ng-repeat="n in [1,2,3,4,5]" >
 		<td>
@@ -46,10 +51,6 @@
 
 	</table>
 </div>
-
-
-<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-disabled= 'disabled' class='btn'>Blue side wins!</button>
-<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-disabled='disabled' class='btn'>Red side wins!</button>
 
 
     
