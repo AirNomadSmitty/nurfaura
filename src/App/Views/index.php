@@ -4,7 +4,9 @@
 	<p>
 		Think you can pick the winner of a game while it's happening? With URF Pick'em, we animate a gold graph and update champion KDAs as the game is progressing. The earlier you pick the winner correctly, the more points you get. Keep picking matches until you get one wrong and then submit to the leaderboards!
 	</p>
+<div style="margin:0 auto; width:125px">
 <a href="/guess" class="btn green">Start Picking!</a>
+</div>
 </div>
 <div class="sidebar">
 	<div class="leaderboard">
