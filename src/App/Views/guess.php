@@ -1,5 +1,5 @@
 <?php ?>
-
+<script type="text/javascript" src="js/app/guess.js"></script>
 <script type="text/javascript" src="js/services/guess.services.js"></script>
 <script type="text/javascript" src="js/controllers/guess.controller.js"></script>
 <script type="text/javascript" src="js/directives/guess.directives.js"></script>
@@ -8,7 +8,7 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
 
 <link href= "/css/c3.css" rel="stylesheet" type="text/css">
-<div ng-app="myApp" ng-controller="myCtrl">
+<div ng-app="guess" ng-controller="guess.controller.guess">
 	<div id = "overallScore">
 		Overall Score: <span>0</span>
 	</div>

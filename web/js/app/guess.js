@@ -1,0 +1,1 @@
+angular.module('guess', ['ngResource', 'guess.services', 'guess.directives', 'guess.controllers']);

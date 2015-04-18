@@ -1,11 +1,11 @@
-var app = angular.module('myApp', ['ngResource', 'myApp.services', 'myApp.directives']);
-app.controller('myCtrl', [
+angular.module('guess.controllers', [])
+.controller('guess.controller.guess', [
     '$scope',
     '$timeout',
-    'Match',
-    'Guess',
+    'guess.services.match',
+    'guess.services.guess',
     'guess.services.leaderboard',
-    function($scope, $timeout, Match, Guess, leaderboardPost) {
+    function($scope, $timeout, matchService, guessService, leaderboardService) {
     var goldDifference, timeAxis,  match, mytimeout, timers;
      timers =[];
     goldDifference = ['Gold Difference'];
@@ -14,7 +14,7 @@ app.controller('myCtrl', [
     
     $scope.runAGame = function(){
         if(typeof($scope.username) != 'undefined' && $scope.username.trim().length >0 ){
-            leaderboardPost.post($.param({username: $scope.username.trim()}))
+            leaderboardService.post($.param({username: $scope.username.trim()}))
         }
         $scope.callBack = false;
         $scope.result = null;
@@ -28,13 +28,19 @@ app.controller('myCtrl', [
         $scope.showModalWrong = false;
         clearTimers();
         timers =[];
-        match = Match.get({}, function(){
+        match = matchService.get({}, function(){
             $scope.redArray = [6,7,8,9,10];
             $scope.blueArray = [1,2,3,4,5];
-            $scope.match = match.toJSON();
-    		chart.axis.max({x: $scope.match.matchLength});
-            setupTimers();
-            mytimeout = $timeout($scope.onTimeout,3000);
+            if(match.toJSON().success){
+                $scope.match = match.toJSON().match;
+        		chart.axis.max({x: $scope.match.matchLength});
+                setupTimers();
+                mytimeout = $timeout($scope.onTimeout,3000);
+            }
+            else
+            {
+                alert('The rito api seems to be down! Looks like someone forgot to feed the engineers...')
+            }
         })
     }
     
@@ -50,7 +56,7 @@ app.controller('myCtrl', [
         $scope.guess.score = $scope.counter;
         $scope.guess.matchId = $scope.match.match;
         $timeout.cancel(mytimeout);
-        Guess.post($.param($scope.guess), function(u, putResponseHeaders){
+        guessService.post($.param($scope.guess), function(u, putResponseHeaders){
             $scope.callBack = true;
             $scope.result = {questionCount: u.questionCount, score: u.score};
 			$('#overallScore span').html(u.score);
@@ -96,7 +102,6 @@ app.controller('myCtrl', [
                     assist.currentAssists++;
                 }
             }
-            // debugger
         }
         else{
              var killer = $scope.match.teams.red.participants[event.killerId];

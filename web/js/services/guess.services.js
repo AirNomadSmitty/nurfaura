@@ -1,8 +1,8 @@
-angular.module('myApp.services', [])
-.factory('Match', function($resource) {
+angular.module('guess.services', [])
+.factory('guess.services.match', function($resource) {
   return $resource('getMatch'); 
 })
-.factory('Guess', function($resource){
+.factory('guess.services.guess', function($resource){
     return $resource('matchGuess', {}, {
       post: {
         method:"POST",

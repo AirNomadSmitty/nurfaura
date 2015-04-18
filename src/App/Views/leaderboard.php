@@ -12,6 +12,7 @@
     		<th st-sort="username">Username</th>
     		<th st-sort="score">Score</th>
     		<th st-sort="questionCount">Number of questions</th>
+    		<th st-sort="ratio">Average points</th>
     	</tr>
     	<tr>
     		<th colspan="3">
@@ -24,6 +25,7 @@
     		<td>{{row.username}}</td>
     		<td>{{row.score}}</td>
     		<td>{{row.questionCount}}</td>
+    		<td>{{row.ratio}}</td>
     	</tr>
     	</tbody>
     	<tfoot>
