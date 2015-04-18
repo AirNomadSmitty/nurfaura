@@ -61,8 +61,8 @@
     
   <modal title="Correct!" visible="showModalCorrect">
     <form role="form">
-    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Next Match!</button>
-    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal">Keep watching!</button>
+    <button style="margin-top: 10px" type="submit" class="btn" class="close" data-dismiss="modal" ng-click="runAGame()">Next Match!</button>
+    <button style="margin-top: 10px" type="submit" class="btn" class="close" data-dismiss="modal">Keep watching!</button>
     </form>
   </modal>
   

@@ -22,6 +22,12 @@ angular.module('guess.controllers', [])
         $scope.guess={score:0, team:'', matchId:0};
         goldDifference = ['Gold Difference'];
         timeAxis = ['x'];
+		chart.load({
+			columns:[
+				timeAxis,
+				goldDifference
+			]
+		});
         $scope.disabled = false;
         $scope.counter = 500;
         $scope.showModalCorrect = false;
