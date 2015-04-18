@@ -74,8 +74,8 @@
         <label for="email">Username</label>
         <input ng-model="$parent.$parent.username" class="form-control" id="username" placeholder="Username" maxlength="20"/>
       </div>
-    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Submit</button>
-    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal">Keep watching!</button>
+    <button type="submit" class="btn" class="close" data-dismiss="modal" ng-click="runAGame()">Submit</button>
+    <button type="submit" class="btn" class="close" data-dismiss="modal">Keep watching!</button>
     </form>
   </modal>
 
