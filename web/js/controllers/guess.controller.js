@@ -65,6 +65,9 @@ angular.module('guess.controllers', [])
             $scope.callBack = true;
             $scope.result = {questionCount: u.questionCount, score: u.score};
 			$scope.overallScore = u.score;
+			if ( !u.correct){
+				$scope.overallScore = 0;
+			}
 			$scope.correct = u.correct;
             $scope.showModalCorrect = u.correct;
             $scope.showModalWrong = !$scope.showModalCorrect; 

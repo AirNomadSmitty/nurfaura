@@ -20,7 +20,7 @@
 	<div class="matchGuessButtons">
 		<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-show= '!disabled' class='btn blue'>Blue side wins!</button>
 		<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-show='!disabled' class='btn red'>Red side wins!</button>
-		<button type="next" class="btn" ng-show="callBack" ng-click="runAGame()" class='btn'>Next Match!</button>
+		<button type="next" class="btn" ng-show="callBack && correct" ng-click="runAGame()" class='btn'>Next Match!</button>
 		<button type="next" class="btn" ng-show="!correct && !showModalWrong && result != null" ng-click="showModalWrong = true" class='btn'>Enter Username</button>
 		
 	</div>
