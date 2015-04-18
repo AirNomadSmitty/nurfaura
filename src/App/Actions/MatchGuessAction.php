@@ -53,8 +53,6 @@ class MatchGuessAction extends BaseAction {
 		$previousTotal= is_null($previousTotal)? 0 : $previousTotal;
 		$count = $segment->get(SessionConstants::QUESTION_COUNT);
 		$count = is_null($count)? 0 : $count;
-		$this->response->content->set('Nice run! Your final score is'.$previousTotal);
-
 		/* Move scores into another segment that way we can clear this one right away to avoid cheating
 		   Need to save them still for logging to leaderboards once username is picked*/
 		$finishedSegment = $this->session->getSegment(SessionConstants::FINISHED_SEGMENT_KEY);
