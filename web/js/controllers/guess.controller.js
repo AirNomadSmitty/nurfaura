@@ -7,7 +7,7 @@ angular.module('guess.controllers', [])
     'guess.services.leaderboard',
     function($scope, $timeout, matchService, guessService, leaderboardService) {
     var goldDifference, timeAxis,  match, mytimeout, timers;
-     timers =[];
+    timers =[];
     goldDifference = ['Gold Difference'];
     timeAxis = ['x'];
     var chart = setChartOptions();
@@ -50,7 +50,6 @@ angular.module('guess.controllers', [])
             $timeout.cancel(currentTimer)
         }
     }
-
     
     $scope.postGuess = function(){
         $scope.guess.score = $scope.counter;
@@ -72,16 +71,15 @@ angular.module('guess.controllers', [])
             mytimeout = $timeout($scope.onTimeout,60);
         }
     }
-    
 
     function setupTimers(){
-            for (var i in match.events) {
-                if(match.events[i].eventType == 'CHAMPION_KILL'){
-                    timers.push($timeout(deathCounter.bind(null, match.events[i]),match.events[i].normalizedTimestamp +3000));
+            for (var i in  $scope.match.events) {
+                if( $scope.match.events[i].eventType == 'CHAMPION_KILL'){
+                    timers.push($timeout(deathCounter.bind(null,  $scope.match.events[i]), $scope.match.events[i].normalizedTimestamp +3000));
                 }
-                else if(match.events[i].eventType == 'GOLD_UPDATE')
+                else if( $scope.match.events[i].eventType == 'GOLD_UPDATE')
                 {
-                    timers.push($timeout(goldCounter.bind(null, match.events[i]), match.events[i].normalizedTimestamp +3000));
+                    timers.push($timeout(goldCounter.bind(null,  $scope.match.events[i]),  $scope.match.events[i].normalizedTimestamp +3000));
                 }
             }
         }
@@ -115,7 +113,6 @@ angular.module('guess.controllers', [])
                 }
             }
         }
-    
     }
     
     function goldCounter(event){

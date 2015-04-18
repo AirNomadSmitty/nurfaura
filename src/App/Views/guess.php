@@ -1,8 +1,9 @@
 <?php ?>
-<script type="text/javascript" src="js/app/guess.js"></script>
+
 <script type="text/javascript" src="js/services/guess.services.js"></script>
 <script type="text/javascript" src="js/controllers/guess.controller.js"></script>
 <script type="text/javascript" src="js/directives/guess.directives.js"></script>
+<script type="text/javascript" src="js/app/guess.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js" charset="utf-8"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>

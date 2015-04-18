@@ -1,4 +1,4 @@
-angular.module('myApp.directives', [])
+angular.module('guess.directives', [])
 .directive('modal', function () {
     return {
       template: '<div class="modal fade">' + 
@@ -45,7 +45,6 @@ angular.module('myApp.directives', [])
   return {
     link : function(scope, element, attrs) {
       attrs.$observe( 'highlightOnChange', function ( val ) {
-        console.log("Highlighting", val);
         element.effect('highlight');
       });
     }
