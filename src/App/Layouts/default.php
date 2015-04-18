@@ -11,10 +11,10 @@
 	<meta name="robots" content="index">
 	<link href= "css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/main.css">
-	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
-	<script type="text/javascript" src="node_modules/angular-resource/angular-resource.js"></script>
-	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
-	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+	<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
+	<script type="text/javascript" src="node_modules/angular-resource/angular-resource.min.js"></script>
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
 		<div class="header">
@@ -27,7 +27,7 @@
 				<ul class="nav-ul">
 					<li><a href="/">Home</a></li>
 					<li><a href="/guess">Pick'em</a></li>
-					<li><a href="/leaderboards">Leaderboards</a></li>
+					<li><a href="/leaderboard">Leaderboards</a></li>
 				</ul>
 			</div>
 		</div>
