@@ -29,7 +29,7 @@ h6 { font-size: .875em; } /* 14px */
     text-decoration: none;
     font-weight: bold;
     font-size: 17px;
-    color: #29292b;
+    color: #3E3E3F;
     border: 0px;
     padding: 7px;
     -webkit-border-radius: 20px;
@@ -72,6 +72,15 @@ font-size: 20px;
 
 .flash.red {
 background-color: rgb(211, 92, 87)
+}
+
+.indexWrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.main-body {
+    padding-left: 10px;
 }
 /* -----------------------
 Layout styles

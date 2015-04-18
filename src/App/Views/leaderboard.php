@@ -33,7 +33,7 @@
     			    <nav>
   <ul class="pagination">
     <li>
-            <div st-pagination="" st-items-by-page="1" st-displayed-pages="7"></div>
+            <div st-pagination="" st-items-by-page="30" st-displayed-pages="7"></div>
     </li>
   </ul>
 </nav>
