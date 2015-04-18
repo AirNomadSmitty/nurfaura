@@ -26,3 +26,6 @@ The crowd favorite PHP library for hitting APIs
 Given the length of the competition and our work schedules, many things got ommitted. We're both developers without much knowledge/experience in design so we opted not to waste too much time on that. Ideally we'd like to make the app more appealing.
 
 Many ideas got scrapped due to time constraints. One main one that we would've liked to have in there is a working killfeed. In an ideal world, we wanted to pull some champion-specific sound files from the client and play them on each kill. We also would've liked to pair this with a map that updates with positions where champions died over the course of the game. 
+
+##Thanks Riot!
+URF Pick'em isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.
