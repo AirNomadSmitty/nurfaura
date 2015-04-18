@@ -1,6 +1,6 @@
 # URF Pickem
 ##Description
-With URF Pick'em, we animate a gold graph and update champion KDAs as the game is progressing. The object of the game is to pick the winner of the game as early on as possible. The earlier you pick, the more points you get. Keep guessing until you get one wrong, then save your score to the leaderboard.
+With URF Pick'em, we animate a gold graph and update champion KDAs as the game is progressing. The object of the game is to pick the winner of the game as early on as possible. The earlier you pick, the more points you get. Keep guessing until you get one wrong, then save your score to the leaderboard. The demo is hosted here: http://ec2-54-148-243-198.us-west-2.compute.amazonaws.com/
 
 ##Dependencies
 - "aura/cli-kernel": "~2.0",
