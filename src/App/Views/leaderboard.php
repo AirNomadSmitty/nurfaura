@@ -15,7 +15,7 @@
     		<th st-sort="ratio">Average points</th>
     	</tr>
     	<tr>
-    		<th colspan="3">
+    		<th colspan="4">
     			<input st-search="" placeholder="Search for Username" class="input-sm form-control" type="search" />
     		</th>
     	</tr>
@@ -31,7 +31,7 @@
     	<tfoot>
     	    
     		<tr>
-    			<td colspan="3" class="text-center">
+    			<td colspan="4" class="text-center">
     			    <nav>
   <ul class="pagination">
     <li>
