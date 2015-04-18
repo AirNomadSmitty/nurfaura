@@ -12,11 +12,12 @@ app.controller('myCtrl', [
     timeAxis = ['x'];
     var chart = setChartOptions();
     
-    
     $scope.runAGame = function(){
         if(typeof($scope.username) != 'undefined' && $scope.username.trim().length >0 ){
             leaderboardPost.post($.param({username: $scope.username.trim()}))
         }
+        $scope.callBack = false;
+        $scope.result = null;
         $scope.username = '';
         $scope.guess={score:0, team:'', matchId:0};
         goldDifference = ['Gold Difference'];
@@ -33,7 +34,7 @@ app.controller('myCtrl', [
             $scope.match = match.toJSON();
     		chart.axis.max({x: $scope.match.matchLength});
             setupTimers();
-            mytimeout = $timeout($scope.onTimeout,1000);
+            mytimeout = $timeout($scope.onTimeout,3000);
         })
     }
     
@@ -50,8 +51,10 @@ app.controller('myCtrl', [
         $scope.guess.matchId = $scope.match.match;
         $timeout.cancel(mytimeout);
         Guess.post($.param($scope.guess), function(u, putResponseHeaders){
+            $scope.callBack = true;
             $scope.result = {questionCount: u.questionCount, score: u.score};
 			$('#overallScore span').html(u.score);
+			$scope.correct = u.correct;
             $scope.showModalCorrect = u.correct;
             $scope.showModalWrong = !$scope.showModalCorrect; 
         });
@@ -68,11 +71,11 @@ app.controller('myCtrl', [
     function setupTimers(){
             for (var i in match.events) {
                 if(match.events[i].eventType == 'CHAMPION_KILL'){
-                    timers.push($timeout(deathCounter.bind(null, match.events[i]),match.events[i].normalizedTimestamp));
+                    timers.push($timeout(deathCounter.bind(null, match.events[i]),match.events[i].normalizedTimestamp +3000));
                 }
                 else if(match.events[i].eventType == 'GOLD_UPDATE')
                 {
-                    timers.push($timeout(goldCounter.bind(null, match.events[i]), match.events[i].normalizedTimestamp));
+                    timers.push($timeout(goldCounter.bind(null, match.events[i]), match.events[i].normalizedTimestamp +3000));
                 }
             }
         }

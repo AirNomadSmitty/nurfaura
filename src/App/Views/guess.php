@@ -4,6 +4,7 @@
 <script type="text/javascript" src="js/controllers/guess.controller.js"></script>
 <script type="text/javascript" src="js/directives/guess.directives.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.js" charset="utf-8"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
 
 <link href= "/css/c3.css" rel="stylesheet" type="text/css">
@@ -18,7 +19,9 @@
 	<div class="matchGuessButtons">
 		<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-show= '!disabled' class='btn blue'>Blue side wins!</button>
 		<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-show='!disabled' class='btn red'>Red side wins!</button>
-		<button type="next" class="btn" ng-show="disabled" ng-click="runAGame()">Next Match!</button>
+		<button type="next" class="btn" ng-show="callBack" ng-click="runAGame()" class='btn'>Next Match!</button>
+		<button type="next" class="btn" ng-show="!correct && !showModalWrong && result != null" ng-click="showModalWrong = true" class='btn'>Enter Username</button>
+		
 	</div>
 	<div class="matchContainer">
 	<table class="teamTable" >
@@ -27,7 +30,9 @@
 			<img ng-src="{{match.teams.blue.participants[n].championImg}}" />
 		</td>
 		<td class="champScores">
+			<div highlight-on-change="{{match.teams.blue.participants[n].currentKills}}">
 			{{match.teams.blue.participants[n].currentKills}}/{{match.teams.blue.participants[n].currentDeaths}}/{{match.teams.blue.participants[n].currentAssists}}
+			</div>		
 		</td>
 
 	</table>
@@ -39,7 +44,9 @@
 		<table class="teamTable">
 		<tr ng-repeat="i in redArray" >
 		<td class="champScores">
-			{{match.teams.red.participants[i].currentKills}}/{{match.teams.red.participants[i].currentDeaths}}/{{match.teams.red.participants[i].currentAssists}}
+			<div highlight-on-change="{{match.teams.red.participants[i].currentKills}}">
+				{{match.teams.red.participants[i].currentKills}}/{{match.teams.red.participants[i].currentDeaths}}/{{match.teams.red.participants[i].currentAssists}}
+			</div>
 		</td>
 		<td>
 			<img ng-src="{{match.teams.red.participants[i].championImg}}" style="float:right"/>
@@ -64,7 +71,7 @@
         <p>To save your score type in a username below</p>
       <div class="form-group">
         <label for="email">Username</label>
-        <input ng-model="$parent.$parent.username" class="form-control" id="username" placeholder="Username" />
+        <input ng-model="$parent.$parent.username" class="form-control" id="username" placeholder="Username" maxlength="20"/>
       </div>
     <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Submit</button>
     <button type="submit" class="btn btn-default" class="close" data-dismiss="modal">Keep watching!</button>

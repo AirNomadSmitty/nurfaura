@@ -11,10 +11,11 @@
 	<meta name="robots" content="index">
 	<link href= "css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" href="css/main.css">
-	<script type="text/javascript" src="node_modules/angular/angular.min.js"></script>
-	<script type="text/javascript" src="node_modules/angular-resource/angular-resource.min.js"></script>
-	<script type="text/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
-	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="node_modules/jquery/dist/jquery.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="node_modules/angular/angular.js"></script>
+	<script type="text/javascript" src="node_modules/angular-resource/angular-resource.js"></script>
+	<script type="text/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
 		<div class="header">

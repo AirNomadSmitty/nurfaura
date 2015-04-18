@@ -1,4 +1,5 @@
-angular.module('myApp.services', []).factory('Match', function($resource) {
+angular.module('myApp.services', [])
+.factory('Match', function($resource) {
   return $resource('getMatch'); 
 })
 .factory('Guess', function($resource){
