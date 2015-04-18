@@ -45,7 +45,23 @@ angular.module('guess.directives', [])
   return {
     link : function(scope, element, attrs) {
       attrs.$observe( 'highlightOnChange', function ( val ) {
-        element.effect('highlight');
+		  var kda = element.html().trim();
+		  var actualKDA = 1;
+		  if (kda.length < 12){
+			  kda = kda.split("/");
+			  if (kda[1] == '0'){
+				  kda[1] = '1';
+			  }
+			  actualKDA = (parseInt(kda[0]) + parseInt(kda[2])) / parseFloat(kda[1])
+		  }
+		  var color = '255, 255, 255';
+		  if(actualKDA > 1 ){
+			  color = '13, 211, 13, '+ actualKDA / parseFloat(5);
+		  } else if (actualKDA < 1 ) {
+			  color = '255, 37, 37, ' + actualKDA;
+		  }
+		  element.css('background-color', 'rgb(13, 211, 13)');
+		  element.effect('highlight');
       });
     }
   };
