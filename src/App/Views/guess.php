@@ -31,7 +31,7 @@
 			<img ng-src="{{match.teams.blue.participants[n].championImg}}" />
 		</td>
 		<td class="champScores">
-			<div highlight-on-change="{{match.teams.blue.participants[n].currentKills}}">
+			<div highlight-on-change="{{match.teams.blue.participants[n].currentKills + match.teams.blue.participants[n].currentDeaths}}">
 			{{match.teams.blue.participants[n].currentKills}}/{{match.teams.blue.participants[n].currentDeaths}}/{{match.teams.blue.participants[n].currentAssists}}
 			</div>		
 		</td>
