@@ -16,12 +16,13 @@
 	</div>
 
 	<div class="matchGuessButtons">
-		<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-disabled= 'disabled' class='btn blue'>Blue side wins!</button>
-		<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-disabled='disabled' class='btn red'>Red side wins!</button>
+		<button ng-click="guess.team = 'Blue'; postGuess(); disabled = true" ng-show= '!disabled' class='btn blue'>Blue side wins!</button>
+		<button ng-click="guess.team = 'Red'; postGuess(); disabled = true" ng-show='!disabled' class='btn red'>Red side wins!</button>
+		<button type="next" class="btn" ng-show="disabled" ng-click="runAGame()">Next Match!</button>
 	</div>
 	<div class="matchContainer">
 	<table class="teamTable" >
-		<tr ng-repeat="n in [1,2,3,4,5]" >
+		<tr ng-repeat="n in blueArray" >
 		<td>
 			<img ng-src="{{match.teams.blue.participants[n].championImg}}" />
 		</td>
@@ -36,7 +37,7 @@
 
 
 		<table class="teamTable">
-		<tr ng-repeat="i in [6,7,8,9,10]" >
+		<tr ng-repeat="i in redArray" >
 		<td class="champScores">
 			{{match.teams.red.participants[i].currentKills}}/{{match.teams.red.participants[i].currentDeaths}}/{{match.teams.red.participants[i].currentAssists}}
 		</td>
@@ -53,6 +54,7 @@
   <modal title="Correct!" visible="showModalCorrect">
     <form role="form">
     <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Next Match!</button>
+    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal">Keep watching!</button>
     </form>
   </modal>
   
@@ -65,6 +67,7 @@
         <input ng-model="$parent.$parent.username" class="form-control" id="username" placeholder="Username" />
       </div>
     <button type="submit" class="btn btn-default" class="close" data-dismiss="modal" ng-click="runAGame()">Submit</button>
+    <button type="submit" class="btn btn-default" class="close" data-dismiss="modal">Keep watching!</button>
     </form>
   </modal>
 

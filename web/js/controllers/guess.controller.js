@@ -11,8 +11,9 @@ app.controller('myCtrl', [
     goldDifference = ['Gold Difference'];
     timeAxis = ['x'];
     var chart = setChartOptions();
+    
+    
     $scope.runAGame = function(){
-        debugger
         if(typeof($scope.username) != 'undefined' && $scope.username.trim().length >0 ){
             leaderboardPost.post($.param({username: $scope.username.trim()}))
         }
@@ -27,6 +28,8 @@ app.controller('myCtrl', [
         clearTimers();
         timers =[];
         match = Match.get({}, function(){
+            $scope.redArray = [6,7,8,9,10];
+            $scope.blueArray = [1,2,3,4,5];
             $scope.match = match.toJSON();
     		chart.axis.max({x: $scope.match.matchLength});
             setupTimers();
@@ -103,7 +106,6 @@ app.controller('myCtrl', [
                     assist.currentAssists++;
                 }
             }
-        //  debugger
         }
     
     }
