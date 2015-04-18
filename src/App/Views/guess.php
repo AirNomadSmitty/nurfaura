@@ -11,7 +11,7 @@
 <link href= "/css/c3.css" rel="stylesheet" type="text/css">
 <div ng-app="guess" ng-controller="guess.controller.guess">
 	<div id = "overallScore">
-		Overall Score: <span>0</span>
+		Overall Score: <span>{{overallScore}}</span>
 	</div>
 	<div id="matchScore">
 	Score: {{counter}}

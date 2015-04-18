@@ -11,7 +11,7 @@ angular.module('guess.controllers', [])
     goldDifference = ['Gold Difference'];
     timeAxis = ['x'];
     var chart = setChartOptions();
-    
+    $scope.overallScore = 0;
     $scope.runAGame = function(){
         if(typeof($scope.username) != 'undefined' && $scope.username.trim().length >0 ){
             leaderboardService.post($.param({username: $scope.username.trim()}))
@@ -58,7 +58,7 @@ angular.module('guess.controllers', [])
         guessService.post($.param($scope.guess), function(u, putResponseHeaders){
             $scope.callBack = true;
             $scope.result = {questionCount: u.questionCount, score: u.score};
-			$('#overallScore span').html(u.score);
+			$scope.overallScore = u.score;
 			$scope.correct = u.correct;
             $scope.showModalCorrect = u.correct;
             $scope.showModalWrong = !$scope.showModalCorrect; 
