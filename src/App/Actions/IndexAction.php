@@ -9,6 +9,8 @@ use App\Mappers\UserScoreMapper;
 
 class IndexAction extends BaseAction {
 
+	const LEADERBOARD_LIMIT = 10;
+
 	protected $view;
 	protected $userScoreMapper;
 
@@ -19,7 +21,10 @@ class IndexAction extends BaseAction {
 	}
 
 	public function __invoke() {
+		$topTen = $this->userScoreMapper->getLimitedOrderByScore(self::LEADERBOARD_LIMIT);
+		$recent = $this->userScoreMapper->getLimitedOrderByCreated(self::LEADERBOARD_LIMIT);
 		$this->view->setView('index');
+		$this->view->setData(['topTen'=>$topTen, 'recent'=>$recent]);
 		$this->view->setLayout('default');
 		$this->response->content->set($this->view->__invoke());
 	}

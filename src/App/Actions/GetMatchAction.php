@@ -38,9 +38,9 @@ class GetMatchAction extends BaseAction {
 			//Save the winning team for later so we don't need to re-calculate it or pass it to the client for cheating
 			$segment = $this->session->getSegment(SessionConstants::ACTIVE_SEGMENT_KEY);
 			$segment->set(SessionConstants::WINNING_TEAM, $parser->getWinningTeam());
-			$this->response->content->set(json_encode($parser->getUsefulArray()));
+			$this->response->content->set(json_encode(['success'=>true, 'match'=>$parser->getUsefulArray()]));
 		} catch(TransferException $e){
-			$this->response->content->set(json_encode(['success'=>false]));
+			$this->response->content->set(json_encode(['success'=>false, 'match'=> []]));
 		}
 	}
 }

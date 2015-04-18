@@ -31,9 +31,14 @@ class UserScoreMapper {
 		return true;
 	}
 
-	public function getFromTimeOrderByScore($from){
-		$sql = "Select * from userScores where created > :from and created < NOW() Order by `score` desc";
-		return $this->db->fetchAll($sql, ['from'=>$from]);
+	public function getLimitedOrderByScore($limit){
+		$sql = "Select * from userScores Order by `score` desc limit :limit";
+		return $this->makeFromArray($this->db->fetchAll($sql, ['limit'=>$limit]));
+	}
+
+	public function getLimitedOrderByCreated($limit){
+		$sql = "Select * from userScores Order By `created` desc limit :limit";
+		return $this->makeFromArray($this->db->fetchAll($sql, ['limit'=> $limit]));
 	}
 
 	public function getAllArrayOrderByScore(){
