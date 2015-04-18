@@ -55,6 +55,24 @@ h6 { font-size: .875em; } /* 14px */
     clear: both;
 }
 
+.flash {
+text-align: center;
+background-color: rgb(104, 182, 135);
+padding: 5px;
+font-size: 20px;
+}
+
+.none {
+    display:none;
+}
+
+.flash.green{
+    background-color: rgb(104, 182, 135);
+}
+
+.flash.red {
+background-color: rgb(211, 92, 87)
+}
 /* -----------------------
 Layout styles
 ------------------------*/

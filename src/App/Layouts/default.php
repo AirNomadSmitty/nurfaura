@@ -23,6 +23,7 @@
 				<h1 class="header-heading">URF Pick'em</h1>
 			</div>
 		</div>
+
 		<div class="nav-bar">
 			<div class="container">
 				<ul class="nav-ul">
@@ -31,6 +32,9 @@
 					<li><a href="/leaderboard">Leaderboards</a></li>
 				</ul>
 			</div>
+		</div>
+		<div class="flash none">
+
 		</div>
 		<div class="wrapper">
 			<div class="content">
